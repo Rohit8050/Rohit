@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Profile Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        .profile-card {
+            display: inline-block;
+            width: 200px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px;
+            box-shadow: 2px 2px 10px rgba(57, 7, 238, 0.936);
+            position: relative;
+        }
+        .profile-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+        .delete-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 20px;
+            color: red;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .delete-icon:hover {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Profile Form</h2>
+    <div class="form-container">
+        <label>Name: <input type="text" id="nameInput"></label><br><br>
+
+        <label>Gender:</label>
+        <input type="radio" name="gender" value="male" checked> Male
+        <input type="radio" name="gender" value="female"> Female <br><br>
+
+        <label>Favorite Color: <input type="color" id="colorInput"></label><br><br>
+
+        <label>Font Size (10-30px): <input type="range" id="fontSizeInput" min="10" max="30" value="16"></label><br><br>
+
+        <button onclick="addProfile()">Submit</button>
+
+        
+    </div>
+
+    <div id="profileContainer"></div>
+
+    <script>
+        function addProfile() {
+            const name = document.getElementById("nameInput").value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const bgColor = document.getElementById("colorInput").value;
+            const fontSize = document.getElementById("fontSizeInput").value + "px";
+
+            if (!name) {
+                alert("Rohit");
+                return;
+            }
+
+            const profileContainer = document.getElementById("profileContainer");
+
+            const card = document.createElement("div");
+            card.classList.add("profile-card");
+            card.style.backgroundColor = bgColor;
+
+            const img = document.createElement("img");
+            img.src = gender === "male" 
+                ? "upload/male.png"  
+                : "upload/female.png"
+                ; 
+
+            const nameText = document.createElement("p");
+            nameText.innerText = name;
+            nameText.style.fontSize = fontSize;
+
+            // Create Dustbin Icon (🗑)
+            const deleteIcon = document.createElement("button");
+            deleteIcon.innerHTML = "&#128465;"; // Dustbin icon
+            deleteIcon.classList.add("delete-icon");
+            deleteIcon.onclick = function () {
+                profileContainer.removeChild(card);
+            };
+
+            card.appendChild(deleteIcon); // Add delete icon inside card
+            card.appendChild(img);
+            card.appendChild(nameText);
+
+            profileContainer.appendChild(card);
+
+            // Clear input fields after adding profile
+            document.getElementById("nameInput").value = "";
+        }
+    </script>
+
+
+
+
+
+</body>
+</html>
